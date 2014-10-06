@@ -340,6 +340,7 @@ class QTIParser {
      *          6: order
      *          7: m/a
      *          8: g match
+     *          9: fill the blank
      *          false for not found.
 	 */
 	function getQuestionType($item_num){

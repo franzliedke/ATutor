@@ -103,6 +103,9 @@ $this->_pages['mods/_standard/tests/view_results.php']['children']  = array(); /
 	$this->_pages['mods/_standard/tests/create_question_ordering.php']['title_var'] = 'create_new_question';
 	$this->_pages['mods/_standard/tests/create_question_ordering.php']['parent']    = 'mods/_standard/tests/question_db.php';
 
+	$this->_pages['mods/_standard/tests/create_question_filltheblank.php']['title_var'] = 'create_new_question';
+	$this->_pages['mods/_standard/tests/create_question_filltheblank.php']['parent']    = 'mods/_standard/tests/question_db.php';
+
 	$this->_pages['mods/_standard/tests/edit_question_tf.php']['title_var'] = 'edit_question';
 	$this->_pages['mods/_standard/tests/edit_question_tf.php']['parent']    = 'mods/_standard/tests/question_db.php';
 
@@ -132,6 +135,9 @@ $this->_pages['mods/_standard/tests/view_results.php']['children']  = array(); /
 
 	$this->_pages['mods/_standard/tests/edit_question_ordering.php']['title_var'] = 'edit_question';
 	$this->_pages['mods/_standard/tests/edit_question_ordering.php']['parent']    = 'mods/_standard/tests/question_db.php';
+
+	$this->_pages['mods/_standard/tests/edit_question_filltheblank.php']['title_var'] = 'edit_question';
+	$this->_pages['mods/_standard/tests/edit_question_filltheblank.php']['parent']    = 'mods/_standard/tests/question_db.php';
 
 	$this->_pages['mods/_standard/tests/delete_question.php']['title_var'] = 'delete';
 	$this->_pages['mods/_standard/tests/delete_question.php']['parent'] = 'mods/_standard/tests/question_db.php';

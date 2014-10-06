@@ -81,6 +81,7 @@ class TestQuestions {
         $question_classes[6] = 'OrderingQuestion';
         $question_classes[7] = 'MultianswerQuestion';
         $question_classes[8] = 'MatchingddQuestion';
+        $question_classes[9] = 'FilltheblankQuestion';
 
         return $question_classes;
     }
@@ -1605,5 +1606,157 @@ class MultianswerQuestion extends MultichoiceQuestion {
         }
     }
 
+}
+
+/**
+ * filltheblankQuestion
+ *
+ */
+class FilltheblankQuestion extends AbstracttestQuestion {
+    /*protected */ var $sPrefix = 'filltheblank';
+    /*protected */var $sNameVar = 'test_ftb';
+
+    /*protected */function assignQTIVariables($row) {
+        $choices = $this->getChoices($row);
+        $num_choices = count($choices);
+
+        $this->savant->assign('num_choices', $num_choices);
+        $this->savant->assign('row', $row);
+    }
+
+    /*protected */function assignDisplayResultVariables($row, $answer_row) {
+        if (strpos($answer_row['answer'], '|') !== false) {
+            $answer_row['answer'] = explode('|', $answer_row['answer']);
+        } else {
+            $answer_row['answer'] = array($answer_row['answer']);
+        }
+
+        $this->savant->assign('base_href', AT_BASE_HREF);
+        $this->savant->assign('answers', $answer_row['answer']);
+        $this->savant->assign('row', $row);
+    }
+
+    /*protected */function assignDisplayVariables($row, $response) {
+        $choices = $this->getChoices($row);
+        $num_choices = count($choices);
+
+        if ($response == '') {
+            $response = -1;
+        }
+        $response = explode('|', $response);
+        $this->savant->assign('response', $response);
+
+        $this->savant->assign('num_choices', $num_choices);
+        $this->savant->assign('row', $row);
+    }
+
+    /*protected */function assignDisplayStatisticsVariables($row, $answers) {
+        $choices = $this->getChoices($row);
+        $num_choices = count($choices);
+
+        $num_results = 0;
+        foreach ($answers as $answer) {
+            $num_results += $answer['count'];
+        }
+
+        foreach ($answers as $key => $value) {
+            $values = explode('|', $key);
+            if (count($values) > 1) {
+                for ($i=0; $i<count($values); $i++) {
+                    $answers[$values[$i]]['count']++;
+                }
+            }
+        }
+
+        $this->savant->assign('num_choices', $num_choices);
+        $this->savant->assign('num_results', $num_results);
+        $this->savant->assign('num_blanks', (int) $answers['-1']['count']);
+        $this->savant->assign('answers', $answers);
+        $this->savant->assign('row', $row);
+    }
+
+    /*public */function mark($row) {
+        $score = 0;
+        $_POST['answers'][$row['question_id']] = intval($_POST['answers'][$row['question_id']]);
+        if ($row['answer_' . $_POST['answers'][$row['question_id']]]) {
+            $score = $row['weight'];
+        } else if ($_POST['answers'][$row['question_id']] == -1) {
+            $has_answer = 0;
+            for($i=0; $i<10; $i++) {
+                $has_answer += $row['answer_'.$i];
+            }
+            if (!$has_answer && $row['weight']) {
+                // If MC has no answer and user answered "leave blank"
+                $score = $row['weight'];
+            }
+        }
+        return $score;
+    }
+
+    //QTI Import Multiple Choice Question
+    function importQTI($question){
+        global $msg;
+
+        if ($question['question'] == ''){
+            $msg->addError(array('EMPTY_FIELDS', _AT('question')));
+        }
+
+        if (!$msg->containsErrors()) {
+            $question['feedback']   = str_replace("'", "\'", escapeSQLValue($question['feedback']));
+            $question['question']   = str_replace("'", "\'", escapeSQLValue($question['question']));
+
+            for ($i=0; $i<10; $i++) {
+                $question['choice'][$i] = escapeSQLValue(trim($question['choice'][$i]));
+            }
+
+            $answers = array_fill(0, 10, 0);
+            if (is_array($question['answer'])){
+                $answers[0] = 1;    //default the first to be the right answer. TODO, use summation of points.
+            } else {
+                $answers[$question['answer']] = 1;
+            }
+
+            $sql_params = array(    $question['category_id'],
+                $_SESSION['course_id'],
+                $question['feedback'],
+                $question['question'],
+                $question['choice'][0],
+                $question['choice'][1],
+                $question['choice'][2],
+                $question['choice'][3],
+                $question['choice'][4],
+                $question['choice'][5],
+                $question['choice'][6],
+                $question['choice'][7],
+                $question['choice'][8],
+                $question['choice'][9],
+                $answers[0],
+                $answers[1],
+                $answers[2],
+                $answers[3],
+                $answers[4],
+                $answers[5],
+                $answers[6],
+                $answers[7],
+                $answers[8],
+                $answers[9],
+                'DEFAULT');
+//
+// debug($sql_params);
+// debug(AT_SQL_QUESTION_MULTI);
+// debug($question);
+// debug(vsprintf(AT_SQL_QUESTION_MULTI, $sql_params));
+// exit;
+//
+            $sql = vsprintf(AT_SQL_QUESTION_MULTI, $sql_params);
+//debug($sql);
+//exit;
+
+            $result    = queryDB($sql, array());
+            if ($result > 0){
+                return at_insert_id();
+            }
+        }
+    }
 }
 ?>

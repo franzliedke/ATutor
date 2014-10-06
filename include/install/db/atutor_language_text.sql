@@ -2865,6 +2865,7 @@ INSERT INTO `language_text` VALUES ('en', '_module', 'bbb_admin_setup', 'BigBlue
 ('en', '_template', 'test_mc', 'Multiple Choice', '2003-05-22 14:03:29', 'test manager question type'),
 ('en', '_template', 'test_open', 'Open Ended', '2003-05-22 14:03:45', 'test manager question type'),
 ('en', '_template', 'test_ordering', 'Ordering', '2007-01-10 13:45:26', ''),
+('en', '_template', 'test_ftb', 'Fill The Blank', '2014-10-03 12:00:00', ''),
 ('en', '_template', 'test_tf', 'True or False', '2003-05-22 14:09:05', 'test manager question type'),
 ('en', '_template', 'text', 'Text', '2004-04-20 16:40:07', ''),
 ('en', '_template', 'textual', 'Textual', '2008-09-08 14:19:22', ''),
