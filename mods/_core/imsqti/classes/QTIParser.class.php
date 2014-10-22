@@ -365,6 +365,9 @@ class QTIParser {
 			case 'Multiple-response':
 				return 7;
 				break;
+			case 'Fill the blank':
+				return 9;
+				break;
 		} 
 
 		switch ($this->field_entry[$item_num]['qmd_itemtype']){

@@ -1,5 +1,5 @@
-<!-- true or false question (aka multiple choice with two choices) -->
-		<item title="True or False question" ident="ITEM_<?php echo $this->row['question_id']; ?>">
+<!-- fill the blank question -->
+		<item title="Fill the blank question" ident="ITEM_<?php echo $this->row['question_id']; ?>">
 			<itemmetadata>
 				<qtimetadata>
 					<qtimetadatafield>
@@ -8,11 +8,11 @@
 					</qtimetadatafield>
                     <qtimetadatafield>
 						<fieldlabel>qmd_questiontype</fieldlabel>
-						<fieldentry>True/false</fieldentry>
+						<fieldentry>Fill the blank</fieldentry>
 					</qtimetadatafield>
                     <qtimetadatafield>
 						<fieldlabel>cc_profile</fieldlabel>
-						<fieldentry>cc.true_false.v0p1</fieldentry>
+						<fieldentry>cc.fill_the_blank.v0p1</fieldentry>
 					</qtimetadatafield>
                     <qtimetadatafield>
 						<fieldlabel>cc_weighting</fieldlabel>
